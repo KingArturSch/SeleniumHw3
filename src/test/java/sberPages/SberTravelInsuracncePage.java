@@ -85,6 +85,7 @@ public class SberTravelInsuracncePage extends BasePage {
     @Step
     public void checkMessage() {
         checkTextAvailabilityFromElement(errorElement, "Заполнены не все обязательные поля");
+        takeScreenshot();
     }
 
 

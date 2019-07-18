@@ -18,7 +18,7 @@ public class BasePage {
 
     public BasePage() {
         this.driver = Init.getDriver();
-        webDriverWait = new WebDriverWait(driver, 50, 200);
+        webDriverWait = new WebDriverWait(driver, 5, 200);
         PageFactory.initElements(driver, this);
     }
 
@@ -81,7 +81,6 @@ public class BasePage {
     public void switchWindowByXpath(WebElement element) {
         Set<String> oldWindowsSet = driver.getWindowHandles();
         waitForReadyAndClickElmnt(element);
-//      findElementXpath(stringXpath).click();
         String newWindowHandle = (new WebDriverWait(driver, 10))
                 .until((ExpectedCondition<String>) driver -> {
                             Set<String> newWindowsSet = driver.getWindowHandles();

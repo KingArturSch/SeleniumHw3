@@ -5,6 +5,7 @@ import org.junit.Test;
 import rgsPages.RgsDmsPage;
 import rgsPages.RgsMainPage;
 import sberPages.SberMainPage;
+import sberPages.SberTravelAndShoppingPage;
 import sberPages.SberTravelInsuracncePage;
 
 public class SberAndRgsTest {
@@ -29,14 +30,15 @@ public class SberAndRgsTest {
         User insuredUser = User.getRandomInsuredUserForSber();
         User insurantUser = User.getRandomInsurantUserForSber();
         SberMainPage sberMainPage = new SberMainPage();
-        SberTravelInsuracncePage sberTravelInsuracncePage = sberMainPage.openSberTravelAndShoppingPage().openFormInsurance();
+        SberTravelAndShoppingPage sberTravelAndShoppingPage = sberMainPage.openSberTravelAndShoppingPage();
+        sberTravelAndShoppingPage.checkTitle();
+        SberTravelInsuracncePage sberTravelInsuracncePage = sberTravelAndShoppingPage.openFormInsurance();
         sberTravelInsuracncePage.setMinimalClickAndNext();
         sberTravelInsuracncePage.fillInTheFormInsuredUser(insuredUser);
         sberTravelInsuracncePage.fillInTheFormInsurantUser(insurantUser);
         sberTravelInsuracncePage.sendForm();
         sberTravelInsuracncePage.checkMessage();
     }
-
 
     @After
     public void close() {
