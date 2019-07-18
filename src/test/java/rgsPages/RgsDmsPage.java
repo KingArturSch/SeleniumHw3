@@ -1,6 +1,7 @@
 package rgsPages;
 
 import core.BasePage;
+import core.User;
 import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
@@ -27,7 +28,7 @@ public class RgsDmsPage extends BasePage {
     @FindBy(xpath = "//*[contains(text(),'Я согласен')]/preceding::input[@class='checkbox']")
     private WebElement checkbox;
 
-    @FindBy(xpath = "//a[contains(text(),'Отправить заявку')]")
+    @FindBy(xpath = "//*[@id= 'button-m']")
     private WebElement sendButton;
 
     @FindBy(xpath = "//*[contains(text(),'Эл. почта')]/following::span[contains(@class, 'validation')]")
@@ -35,12 +36,8 @@ public class RgsDmsPage extends BasePage {
 
     @Step
     public void checkTitle() {
+        waitForReadyElm(dmcTitle);
         Assert.assertTrue(dmcTitle.getText().contains("добровольное медицинское страхование"));
-    }
-
-    @Step
-    public void checkTextAvailability() {
-        Assert.assertTrue(textRequest.getText().contains("Заявка на добровольное медицинское страхование"));
     }
 
     @Step
@@ -49,13 +46,18 @@ public class RgsDmsPage extends BasePage {
     }
 
     @Step
-    public void fillInTheForm() {
-        fillInputByName("Фамилия", "Жуков", "");
-        fillInputByName("Имя", "Михаил", "");
-        fillInputByName("Отчество", "Сергеевич", "");
-        fillInputByName("Телефон", "(913) 145-65-89", "");
-        fillInputByName("Эл. почта", "qwertyqwerty", "");
-        fillInputByName("Фамилия", "Жуков", "");
+    public void checkTextAvailability() {
+        waitForReadyElm(textRequest);
+        Assert.assertTrue(textRequest.getText().contains("Заявка на добровольное медицинское страхование"));
+    }
+
+    @Step
+    public void fillInTheForm(User user) {
+        fillInputByName("Фамилия", user.getLastName(), "");
+        fillInputByName("Имя", user.getFirstName(), "");
+        fillInputByName("Отчество", user.getPatronymic(), "");
+        fillInputByName("Телефон", user.getTelephoneNumber(), "");
+        fillInputByName("Эл. почта", user.getEmail(), "");
 
         commentField.sendKeys("тут был Selenium");
         checkErrorWithAttribute(commentField, "тут был Selenium");

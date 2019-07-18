@@ -14,7 +14,7 @@ public class BasePage {
 
     public BasePage() {
         this.driver = Init.getDriver();
-        webDriverWait = new WebDriverWait(driver, 50, 200);
+        webDriverWait = new WebDriverWait(driver, 5, 200);
         PageFactory.initElements(driver, this);
     }
 
@@ -42,13 +42,20 @@ public class BasePage {
         String temp = "//*[text() = '%s']/following::input[1]";
         String fullXpath = String.format((temp), name)+and;
         WebElement element = driver.findElement(By.xpath(fullXpath));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.textToBePresentInElementValue(element, textTo));
         element.sendKeys(textTo);
-        checkErrorWithAttribute(element, textTo);
+//        new WebDriverWait(driver, 10).until(ExpectedConditions.textToBePresentInElementValue(element, textTo));
+        String actualText = element.getAttribute("value");
+        if (actualText.contains("+7")) {
+            waitForReadyElm(element);
+            Assert.assertEquals(actualText, "+7 " + textTo);
+        } else checkErrorWithAttribute(element, textTo);
+
+
     }
 
     @Step
     public void checkErrorWithAttribute(WebElement element, String textTo) {
+        waitForReadyElm(element);
         String actualText = element.getAttribute("value");
         Assert.assertEquals(textTo, actualText);
     }

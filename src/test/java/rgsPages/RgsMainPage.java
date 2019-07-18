@@ -16,8 +16,8 @@ public class RgsMainPage extends BasePage {
 
     @Step("Open DMS Page")
     public RgsDmsPage openDmsPage() {
-        waitForReadyAndClickElmnt(insuranceButton);
-        waitForReadyAndClickElmnt(dmsButton);
+        waitForReadyElm(insuranceButton).click();
+        waitForReadyElm(dmsButton).click();
         return new RgsDmsPage();
     }
 
