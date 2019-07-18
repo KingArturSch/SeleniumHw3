@@ -1,10 +1,15 @@
 package core;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class User {
     private String lastName;
+    private String lastNameLat;
     private String firstName;
+    private String firstNameLat;
     private String patronymic;
     private String telephoneNumber;
     private String birthDate;
@@ -13,9 +18,12 @@ public class User {
     private String passportIssuePlace;
     private String passportIssueDate;
     private String email;
+    private boolean sex;
 
     private static String[] lastNames = {"Иванов", "Петров", "Сидоров", "Пупкин"};
+    private static String[] lastNamesLat = {"Ivanov", "Petrov", "Sidorov", "Pupkin"};
     private static String[] firstNames = {"Иван", "Петр", "Василий", "Александр"};
+    private static String[] firstNamesLat = {"Ivan", "Petr", "Vasiliy", "Alexander"};
     private static String[] patronymics = {"Иванович", "Петрович", "Евгеньевич", "Андреевич"};
     private static String numbers = "0123456789";
     private static Random random;
@@ -34,10 +42,41 @@ public class User {
 
     public static User getRandomUserForRgs() {
         random = new Random();
-                return new User(lastNames[random.nextInt(4)],
-                        firstNames[random.nextInt(4)],
-                        patronymics[random.nextInt(4)],
-                        getRandomTelephoneNumber(random), "qwertyqwerty");
+        return new User(lastNames[random.nextInt(4)],
+                firstNames[random.nextInt(4)],
+                patronymics[random.nextInt(4)],
+                getRandomTelephoneNumber(random), "qwertyqwerty");
+    }
+
+    public User(String lastNameLat, String firstNameLat, String birthDate) {
+        this.lastNameLat = lastNameLat;
+        this.firstNameLat = firstNameLat;
+        this.birthDate = birthDate;
+    }
+
+    public User(String lastName, String firstName, String patronymic, String birthDate, String passportSeries, String passportNumber, String passportIssuePlace, String passportIssueDate, boolean sex) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.patronymic = patronymic;
+        this.birthDate = birthDate;
+        this.passportSeries = passportSeries;
+        this.passportNumber = passportNumber;
+        this.passportIssuePlace = passportIssuePlace;
+        this.passportIssueDate = passportIssueDate;
+        this.sex = sex;
+    }
+
+    public static User getRandomInsuredUserForSber() {
+        random = new Random();
+        return new User(lastNames[random.nextInt(4)],
+                firstNames[random.nextInt(4)], getBirthRandomDate());
+    }
+
+    public static User getRandomInsurantUserForSber() {
+        random = new Random();
+        return new User(lastNames[random.nextInt(4)],
+                firstNames[random.nextInt(4)],
+                patronymics[random.nextInt(4)], getBirthRandomDate(), randomCellsGenerate(4), randomCellsGenerate(6), "ОУФМС МСК",getPassportRandomIssueDate(), true);
     }
 
 
@@ -51,12 +90,51 @@ public class User {
                 telephoneNumberBuilder.append(ch);
             }
         }
-        telephoneNumberBuilder.insert(0,"(");
-        telephoneNumberBuilder.insert(4,")");
-        telephoneNumberBuilder.insert(5," ");
-        telephoneNumberBuilder.insert(9,"-");
-        telephoneNumberBuilder.insert(12,"-");
+        telephoneNumberBuilder.insert(0, "(");
+        telephoneNumberBuilder.insert(4, ")");
+        telephoneNumberBuilder.insert(5, " ");
+        telephoneNumberBuilder.insert(9, "-");
+        telephoneNumberBuilder.insert(12, "-");
         return telephoneNumberBuilder.toString();
+    }
+
+    public static String getBirthRandomDate() {
+        String date = "";
+        int yearBegin = 1960;
+        int yearEnd = 2010 - yearBegin;
+        int month = 1 + (int) (Math.random() * 12);
+        String monthS = (month < 10) ? "0" + month : String.valueOf(month);
+        int day = 1 + (int) (Math.random() * 31);
+        String dayS = (day < 10) ? "0" + day : String.valueOf(day);
+        date = "" + dayS + "." + monthS + "." + (yearBegin + (int) (Math.random() * yearEnd));
+        return date;
+    }
+
+
+    public static String getPassportRandomIssueDate() {
+        String date = "";
+        int yearBegin = 2010;
+        int yearEnd = 2019 - yearBegin;
+        int month = 1 + (int) (Math.random() * 12);
+        String monthS = (month < 10) ? "0" + month : String.valueOf(month);
+        int day = 1 + (int) (Math.random() * 31);
+        String dayS = (day < 10) ? "0" + day : String.valueOf(day);
+        date = "" + dayS + "." + monthS + "." + (yearBegin + (int) (Math.random() * yearEnd));
+        return date;
+    }
+
+    public static String randomCellsGenerate(int count) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            char ch = numbers.charAt(random.nextInt(numbers.length()));
+            stringBuilder.append(ch);
+        }
+        return stringBuilder.toString();
+    }
+
+    public String getSex() {
+        String sexS = (sex) ? "м" : "ж";
+        return sexS;
     }
 
     public String getEmail() {
@@ -67,30 +145,17 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getPatronymic() {
         return patronymic;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
-
 
     public String getBirthDate() {
         return birthDate;
@@ -132,4 +197,11 @@ public class User {
         this.passportIssueDate = passportIssueDate;
     }
 
+    public String getLastNameLat() {
+        return lastNameLat;
+    }
+
+    public String getFirstNameLat() {
+        return firstNameLat;
+    }
 }

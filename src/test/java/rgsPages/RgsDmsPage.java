@@ -34,24 +34,23 @@ public class RgsDmsPage extends BasePage {
     @FindBy(xpath = "//*[contains(text(),'Эл. почта')]/following::span[contains(@class, 'validation')]")
     private WebElement emailValidation;
 
-    @Step
+    @Step("check title - \"добровольное медицинское страхование\"")
     public void checkTitle() {
-        waitForReadyElm(dmcTitle);
-        Assert.assertTrue(dmcTitle.getText().contains("добровольное медицинское страхование"));
+        checkTextAvailabilityFromElement(dmcTitle, "добровольное медицинское страхование");
     }
 
-    @Step
+    @Step("click for button after waiting")
     public void clickSendFormButton() {
-        waitForReadyElm(sendRequestButton).click();
+        waitForReadyElement(sendRequestButton).click();
     }
 
-    @Step
+    @Step("check request text - \"Заявка на добровольное медицинское страхование\"")
     public void checkTextAvailability() {
-        waitForReadyElm(textRequest);
-        Assert.assertTrue(textRequest.getText().contains("Заявка на добровольное медицинское страхование"));
+        checkTextAvailabilityFromElement(textRequest, "Заявка на добровольное медицинское страхование");
     }
 
-    @Step
+
+    @Step("filling the form with user data {user}")
     public void fillInTheForm(User user) {
         fillInputByName("Фамилия", user.getLastName(), "");
         fillInputByName("Имя", user.getFirstName(), "");
@@ -59,23 +58,23 @@ public class RgsDmsPage extends BasePage {
         fillInputByName("Телефон", user.getTelephoneNumber(), "");
         fillInputByName("Эл. почта", user.getEmail(), "");
 
-        commentField.sendKeys("тут был Selenium");
-        checkErrorWithAttribute(commentField, "тут был Selenium");
+        commentField.sendKeys("здесь был Selenium");
+        checkErrorWithAttribute(commentField, "здесь был Selenium");
 
         new Select(selectRegion).selectByValue("77");
         checkErrorWithAttribute(selectRegion, "77");
         checkbox.click();
     }
 
-    @Step
+    @Step("click button send")
     public void sendForm() {
-        waitForReadyElm(sendButton).click();
+        waitForReadyElement(sendButton).click();
     }
 
-    @Step
+    @Step("check e-mail error")
     public void checkEmailError() {
-        waitForReadyElm(emailValidation);
-        Assert.assertEquals(emailValidation.getText(), "Введите адрес электронной почты");
+        checkTextAvailabilityFromElement(emailValidation, "Введите адрес электронной почты");
+        takeScreenshot();
     }
 
 

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class RgsMainPage extends BasePage {
+    public final static String RGS_URL = "https://rgs.ru";
 
     @FindBy(xpath = "//*[@id='main-navbar-collapse']/ol[1]/li[2]")
     private WebElement insuranceButton;
@@ -16,8 +17,8 @@ public class RgsMainPage extends BasePage {
 
     @Step("Open DMS Page")
     public RgsDmsPage openDmsPage() {
-        waitForReadyElm(insuranceButton).click();
-        waitForReadyElm(dmsButton).click();
+        waitForReadyElement(insuranceButton).click();
+        waitForReadyElement(dmsButton).click();
         return new RgsDmsPage();
     }
 
