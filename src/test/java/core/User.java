@@ -68,8 +68,8 @@ public class User {
 
     public static User getRandomInsuredUserForSber() {
         random = new Random();
-        return new User(lastNames[random.nextInt(4)],
-                firstNames[random.nextInt(4)], getBirthRandomDate());
+        return new User(lastNamesLat[random.nextInt(4)],
+                firstNamesLat[random.nextInt(4)], getBirthRandomDate());
     }
 
     public static User getRandomInsurantUserForSber() {

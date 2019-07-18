@@ -45,8 +45,8 @@ public class BasePage {
         String temp = "//*[text() = '%s']/following::input[1]";
         String fullXpath = String.format((temp), name) + and;
         WebElement element = driver.findElement(By.xpath(fullXpath));
+        waitForReadyElement(element);
         element.sendKeys(textTo);
-//        new WebDriverWait(driver, 10).until(ExpectedConditions.textToBePresentInElementValue(element, textTo));
         String actualText = element.getAttribute("value");
         if (actualText.contains("+7")) {
             waitForReadyElement(element);
