@@ -13,12 +13,12 @@ public class SberTravelAndShoppingPage extends BasePage {
     @FindBy(xpath = "//*[@data-pid='SBRF-TEXT-2247407']//a[contains(text(), 'Оформить онлайн')]")
     private WebElement makeOnlineButton;
 
-    @Step
+    @Step("check title to contains - \"Страхование путешественников\"")
     public void checkTitle() {
         checkTextAvailabilityFromElement(travelInsuranceTitle, "Страхование путешественников");
     }
 
-    @Step
+    @Step(" open SberTravelInsuracncePage")
     public SberTravelInsuracncePage openFormInsurance() {
         waitForReadyElement(makeOnlineButton);
         switchWindowByXpath(makeOnlineButton);

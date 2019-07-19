@@ -42,13 +42,13 @@ public class SberTravelInsuracncePage extends BasePage {
     @FindBy(xpath = "//*[@name='issuePlace']")
     WebElement issuePlace;
 
-    @Step
+    @Step("choice of minimum insurance")
     public void setMinimalClickAndNext() {
         waitForReadyElement(minimalButton).click();
         waitForReadyElement(buttonNextForm).click();
     }
 
-    @Step
+    @Step("fill in the insured data")
     public void fillInTheFormInsuredUser(User user) {
         fillInputByName("Фамилия /Surname", user.getLastNameLat(), "[@name='insured0_surname']");
         fillInputByName("Имя",  user.getFirstNameLat(), "[@name='insured0_name']");
@@ -56,7 +56,7 @@ public class SberTravelInsuracncePage extends BasePage {
         checkErrorWithAttribute(insuredBirthDate, user.getBirthDate());
     }
 
-    @Step
+    @Step("fill in the data of the insured")
     public void fillInTheFormInsurantUser(User user){
         fillInputByName("Фамилия", user.getLastName(), "[@name='surname']");
         fillInputByName("Имя", user.getFirstName(), "[@name='name']");
@@ -77,12 +77,12 @@ public class SberTravelInsuracncePage extends BasePage {
         checkErrorWithAttribute(birthDate, user.getBirthDate());
     }
 
-    @Step
+    @Step("Submit Form")
     public void sendForm() {
         waitForReadyElement(saveButton).click();
     }
 
-    @Step
+    @Step("check error")
     public void checkMessage() {
         checkTextAvailabilityFromElement(errorElement, "Заполнены не все обязательные поля");
         takeScreenshot();

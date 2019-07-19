@@ -15,7 +15,7 @@ public class SberMainPage extends BasePage {
     private WebElement travelAndShoppingButton;
 
 
-    @Step
+    @Step("Open openSberTravelAndShoppingPage")
     public SberTravelAndShoppingPage openSberTravelAndShoppingPage() {
         waitForReadyElement(insuranceButton).click();
         waitForReadyElement(travelAndShoppingButton).click();
