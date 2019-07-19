@@ -22,11 +22,20 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * Ожидание доступности елемента
+     * @param element
+     * @return
+     */
     @Step("Wait for ready {element}")
     public WebElement waitForReadyElement(WebElement element) {
         return webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    /**
+     * Ожидание доступности и click через js
+     * @param element
+     */
     @Step("Wait for ready and click for js{element}")
     public void waitForReadyAndClickElmnt(WebElement element) {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
@@ -35,11 +44,22 @@ public class BasePage {
     }
 
 
+    /**
+     * Скриншотики)
+     * @return
+     */
     @Attachment("Screenshot")
     public byte[] takeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
+    /**
+     * Метод по name и and составляет запрос xpath и делает sendKeys текстом textTO
+     *
+     * @param name
+     * @param textTo
+     * @param and
+     */
     @Step("filling in the form {name} with the entered values {textTo}")
     public void fillInputByName(String name, String textTo, String and) {
         String temp = "//*[text() = '%s']/following::input[1]";
@@ -54,6 +74,11 @@ public class BasePage {
         } else checkErrorWithAttribute(element, textTo);
     }
 
+    /**
+     * Проверка атрибута элемента, и тескта
+     * @param element
+     * @param textTo
+     */
     @Step("Validation of {element} attribute with {textTo}")
     public void checkErrorWithAttribute(WebElement element, String textTo) {
         waitForReadyElement(element);
@@ -61,22 +86,31 @@ public class BasePage {
         Assert.assertEquals(textTo, actualText);
     }
 
+    /**
+     * сравнение текста елемента с актуальным темкстом
+     * @param element
+     * @param textTo
+     */
     @Step("check request text {textTo} from {element}")
     public void checkTextAvailabilityFromElement(WebElement element, String textTo) {
         waitForReadyElement(element);
         Assert.assertTrue(element.getText().contains(textTo));
     }
 
-    @Step
-    public void setDate(String xpath, String day, String month, String year) {
-        waitForReadyElement(driver.findElement(By.xpath(xpath))).click();
-        Select selectYear = new Select(driver.findElement(By.xpath("//*[@class=\"ui-datepicker-year\"]")));
-        selectYear.selectByValue(year);
-        driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div/div/select[1]")).click();
-        driver.findElement(By.xpath("//*[@class=\"ui-datepicker-month\"]/option[" + month + "]")).click();
-        driver.findElement(By.xpath("//*[@data-event=\"click\"]//*[text()='" + day + "']")).click();
-    }
+//    @Step
+//    public void setDate(String xpath, String day, String month, String year) {
+//        waitForReadyElement(driver.findElement(By.xpath(xpath))).click();
+//        Select selectYear = new Select(driver.findElement(By.xpath("//*[@class=\"ui-datepicker-year\"]")));
+//        selectYear.selectByValue(year);
+//        driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div/div/select[1]")).click();
+//        driver.findElement(By.xpath("//*[@class=\"ui-datepicker-month\"]/option[" + month + "]")).click();
+//        driver.findElement(By.xpath("//*[@data-event=\"click\"]//*[text()='" + day + "']")).click();
+//    }
 
+    /**
+     * Перевод драйвера на активную вкладку
+     * @param element
+     */
     @Step
     public void switchWindowByXpath(WebElement element) {
         Set<String> oldWindowsSet = driver.getWindowHandles();
